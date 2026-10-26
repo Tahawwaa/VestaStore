@@ -15,7 +15,7 @@ import {
 } from '../components/products/Filters';
 import type { Filters } from '../components/products/Filters';
 import { EmptyState } from '../components/common/EmptyState';
-import { formatNumber, formatPrice } from '../utils/formatPrice';
+import { formatNumber, formatPrice, formatSize } from '../utils/formatPrice';
 import { filterProducts } from '../utils/filterProducts';
 const paramNames: Partial<Record<keyof Filters, string>> = { query: 'q', isNew: 'new' };
 export default function ProductsPage() {
@@ -64,7 +64,7 @@ export default function ProductsPage() {
       key: 'category',
       label: categoryNames[filters.category as ProductCategory] || filters.category,
     });
-  if (filters.size) chips.push({ key: 'size', label: `سایز ${filters.size}` });
+  if (filters.size) chips.push({ key: 'size', label: `سایز ${formatSize(filters.size)}` });
   if (filters.color)
     chips.push({
       key: 'color',

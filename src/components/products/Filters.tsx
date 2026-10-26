@@ -1,7 +1,7 @@
 import { Search } from 'lucide-react';
 import { useId } from 'react';
 import { categoryNames, colors } from '../../data/products';
-import { formatPrice } from '../../utils/formatPrice';
+import { formatPrice, formatSize } from '../../utils/formatPrice';
 import { Modal } from '../common/Modal';
 export interface Filters {
   category: string;
@@ -67,7 +67,7 @@ export function FilterSidebar({
                 className={filters.size === size ? 'selected' : ''}
                 onClick={() => onChange('size', filters.size === size ? '' : size)}
               >
-                {size}
+              {formatSize(size)}
               </button>
             ),
           )}

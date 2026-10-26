@@ -4,6 +4,7 @@ import type { CartItem as CartItemType } from '../../types/cart';
 import { useCart } from '../../hooks/useCart';
 import { PriceDisplay } from '../common/PriceDisplay';
 import { QuantityStepper } from './QuantityStepper';
+import { formatSize } from '../../utils/formatPrice';
 export function CartItem({ item }: { item: CartItemType }) {
   const { updateQuantity, removeItem, setOpen } = useCart();
   return (
@@ -16,7 +17,7 @@ export function CartItem({ item }: { item: CartItemType }) {
           <h3>{item.product.title}</h3>
         </Link>
         <p>
-          سایز {item.selectedSize} <span> / </span> {item.selectedColor.name}
+          سایز <bdi>{formatSize(item.selectedSize)}</bdi> <span> / </span> {item.selectedColor.name}
         </p>
         <PriceDisplay price={item.product.price} />
         <div className="cart-item-actions">

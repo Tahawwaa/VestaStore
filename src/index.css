@@ -2978,3 +2978,10 @@ fieldset {
     font-size: 9px;
   }
 }
+.hero{grid-template-rows:minmax(0,1fr)}
+.hero-content{min-height:0;padding-top:45px;padding-bottom:65px}
+.hero-bottom{position:absolute;bottom:23px;right:16%;left:12%;margin-top:0;padding-top:0}
+.latin-mark{letter-spacing:0}
+@media(max-width:1100px){.hero-content{padding-top:30px;padding-bottom:60px}.hero-bottom{right:11%;left:10%}}
+@media(max-width:800px){.hero-content{padding-top:25px;padding-bottom:55px}.hero-bottom{right:10%;left:8%}}
+@media(max-width:600px){.hero-content{min-height:357px;padding:34px 26px 29px}.hero-bottom{display:none}}

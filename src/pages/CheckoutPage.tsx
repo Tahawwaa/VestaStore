@@ -4,7 +4,7 @@ import { ArrowLeft, Check, LockKeyhole, Truck } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
 import { Breadcrumbs } from '../components/common/Breadcrumbs';
 import { EmptyState } from '../components/common/EmptyState';
-import { formatPrice, formatNumber } from '../utils/formatPrice';
+import { formatPrice, formatNumber, formatSize } from '../utils/formatPrice';
 import { shippingCost } from '../utils/cart';
 import { validateCustomer } from '../utils/checkout';
 import type { CustomerInfo } from '../utils/checkout';
@@ -57,6 +57,10 @@ export default function CheckoutPage() {
   const shipping = shippingCost(subtotal, express);
   const reduction = discount ? Math.round(subtotal * 0.1) : 0;
   const total = subtotal - reduction + shipping;
+  function updateField(key: keyof CustomerInfo, value: string) {
+    setInfo((previous) => ({ ...previous, [key]: value }));
+    setErrors((previous) => ({ ...previous, [key]: undefined }));
+  }
   function submit(event: React.FormEvent) {
     event.preventDefault();
     const next = validateCustomer(info);
@@ -123,9 +127,7 @@ export default function CheckoutPage() {
                     id={field.key}
                     name={field.key}
                     value={info[field.key]}
-                    onChange={(event) =>
-                      setInfo((previous) => ({ ...previous, [field.key]: event.target.value }))
-                    }
+                    onChange={(event) => updateField(field.key, event.target.value)}
                     placeholder={field.placeholder}
                     autoComplete={field.autoComplete}
                     inputMode={field.inputMode}
@@ -148,9 +150,7 @@ export default function CheckoutPage() {
                   id="address"
                   name="address"
                   value={info.address}
-                  onChange={(event) =>
-                    setInfo((previous) => ({ ...previous, address: event.target.value }))
-                  }
+                  onChange={(event) => updateField('address', event.target.value)}
                   placeholder="استان، خیابان، کوچه، پلاک و واحد"
                   autoComplete="street-address"
                   rows={3}
@@ -210,7 +210,7 @@ export default function CheckoutPage() {
               <div>
                 <h3>{item.product.title}</h3>
                 <p>
-                  {item.selectedSize} / {item.selectedColor.name} / {formatNumber(item.quantity)}{' '}
+                  <bdi>{formatSize(item.selectedSize)}</bdi> / {item.selectedColor.name} / {formatNumber(item.quantity)}{' '}
                   عدد
                 </p>
                 <span>{formatPrice(item.product.price * item.quantity)} تومان</span>

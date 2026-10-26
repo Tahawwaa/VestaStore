@@ -1,11 +1,12 @@
 import { Heart, Menu, Search, ShoppingBag, ArrowUpLeft } from 'lucide-react';
-import { Link, NavLink } from 'react-router';
+import { Link, useLocation } from 'react-router';
 import { useState } from 'react';
 import { useCart } from '../../hooks/useCart';
 import { formatNumber } from '../../utils/formatPrice';
 import { MobileMenu, navigation } from './MobileMenu';
 import { SearchBar } from './SearchBar';
 export function Navbar() {
+  const { pathname, search: locationSearch } = useLocation();
   const { count, setOpen } = useCart();
   const [menu, setMenu] = useState(false);
   const [search, setSearch] = useState(false);
@@ -58,13 +59,14 @@ export function Navbar() {
         </div>
         <nav className="desktop-navigation" aria-label="دسته‌بندی‌ها">
           {navigation.map((item) => (
-            <NavLink
+            <Link
               className={item.label === 'فروش ویژه' ? 'sale-link' : ''}
               key={item.to}
               to={item.to}
+              aria-current={`${pathname}${locationSearch}` === item.to ? 'page' : undefined}
             >
               {item.label}
-            </NavLink>
+            </Link>
           ))}
         </nav>
       </header>

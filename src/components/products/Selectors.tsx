@@ -1,5 +1,6 @@
 import { Check } from 'lucide-react';
 import type { ProductColor, ProductSize } from '../../types/product';
+import { formatSize } from '../../utils/formatPrice';
 export function SizeSelector({
   sizes,
   value,
@@ -12,7 +13,7 @@ export function SizeSelector({
   return (
     <fieldset className="option-group">
       <legend>
-        انتخاب سایز <span>{value || 'سایز خود را انتخاب کنید'}</span>
+        انتخاب سایز <span>{formatSize(value) || 'سایز خود را انتخاب کنید'}</span>
       </legend>
       <div className="size-options">
         {sizes.map((size) => (
@@ -23,7 +24,7 @@ export function SizeSelector({
             onClick={() => onChange(size)}
             className={value === size ? 'selected' : ''}
           >
-            {size}
+            {formatSize(size)}
           </button>
         ))}
       </div>

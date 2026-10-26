@@ -128,7 +128,7 @@ function ProductDetail({ product }: { product: Product }) {
             </button>
             <button
               className={`detail-favorite icon-button ${favorite ? 'is-favorite' : ''}`}
-              aria-label="افزودن به علاقه‌مندی‌ها"
+              aria-label={favorite ? 'حذف از علاقه‌مندی‌ها' : 'افزودن به علاقه‌مندی‌ها'}
               aria-pressed={favorite}
               onClick={() => toggleFavorite(product.id)}
             >
