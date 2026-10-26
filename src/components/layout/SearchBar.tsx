@@ -1,0 +1,5 @@
+import { Search, ArrowLeft } from 'lucide-react';
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Modal } from '../common/Modal';
+export function SearchBar({ open, onClose }: { open: boolean; onClose: () => void }) { const [query,setQuery]=useState(''); const navigate=useNavigate(); function search(term: string) {navigate(`/products?q=${encodeURIComponent(term)}`);onClose();} return <Modal open={open} onClose={onClose} title="دنبال چه چیزی می‌گردید؟"><form className="search-form" onSubmit={event => {event.preventDefault();search(query);}}><Search size={20}/><input aria-label="جستجوی محصولات" placeholder="نام محصول، سبک یا رنگ…" value={query} onChange={event => setQuery(event.target.value)}/><button className="icon-button" type="submit" aria-label="جستجو"><ArrowLeft size={20}/></button></form><p className="muted text-sm mt-6 mb-3">جستجوهای پیشنهادی</p><div className="search-suggestions">{['لینن','کت','بافت','کیف'].map(term => <button key={term} onClick={() => search(term)}>{term}</button>)}</div></Modal>; }
