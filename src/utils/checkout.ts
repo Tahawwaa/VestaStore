@@ -1,3 +1,20 @@
 import { normalizeDigits } from './formatPrice';
-export interface CustomerInfo { name:string;phone:string;city:string;address:string;postalCode:string }
-export function validateCustomer(info:CustomerInfo):Partial<Record<keyof CustomerInfo,string>>{const errors:Partial<Record<keyof CustomerInfo,string>>={};if(info.name.trim().length<3)errors.name='نام و نام خانوادگی را کامل وارد کنید.';if(!/^09\d{9}$/.test(normalizeDigits(info.phone).replace(/\s/g,'')))errors.phone='شماره همراه معتبر با ۰۹ و ۱۱ رقم وارد کنید.';if(info.city.trim().length<2)errors.city='نام شهر را وارد کنید.';if(info.address.trim().length<10)errors.address='آدرس کامل شامل خیابان، پلاک و واحد را وارد کنید.';if(!/^\d{10}$/.test(normalizeDigits(info.postalCode).replace(/\s/g,'')))errors.postalCode='کد پستی باید ۱۰ رقم باشد.';return errors;}
+export interface CustomerInfo {
+  name: string;
+  phone: string;
+  city: string;
+  address: string;
+  postalCode: string;
+}
+export function validateCustomer(info: CustomerInfo): Partial<Record<keyof CustomerInfo, string>> {
+  const errors: Partial<Record<keyof CustomerInfo, string>> = {};
+  if (info.name.trim().length < 3) errors.name = 'نام و نام خانوادگی را کامل وارد کنید.';
+  if (!/^09\d{9}$/.test(normalizeDigits(info.phone).replace(/\s/g, '')))
+    errors.phone = 'شماره همراه معتبر با ۰۹ و ۱۱ رقم وارد کنید.';
+  if (info.city.trim().length < 2) errors.city = 'نام شهر را وارد کنید.';
+  if (info.address.trim().length < 10)
+    errors.address = 'آدرس کامل شامل خیابان، پلاک و واحد را وارد کنید.';
+  if (!/^\d{10}$/.test(normalizeDigits(info.postalCode).replace(/\s/g, '')))
+    errors.postalCode = 'کد پستی باید ۱۰ رقم باشد.';
+  return errors;
+}

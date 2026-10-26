@@ -1,10 +1,172 @@
 import { Search } from 'lucide-react';
+import { useId } from 'react';
 import { categoryNames, colors } from '../../data/products';
 import { formatPrice } from '../../utils/formatPrice';
 import { Modal } from '../common/Modal';
-export interface Filters { category:string;size:string;color:string;maxPrice:number;available:boolean;query:string;sort:string;isNew:boolean;sale:boolean;favorites:boolean }
-export const defaultFilters: Filters={category:'',size:'',color:'',maxPrice:5500000,available:false,query:'',sort:'new',isNew:false,sale:false,favorites:false};
-export function FilterSidebar({filters,onChange,clear}:{filters:Filters;onChange:(key:keyof Filters,value:string|number|boolean)=>void;clear:()=>void}){return <div className="filter-sidebar"><div className="filter-title"><h2>فیلترها</h2><button onClick={clear}>پاک کردن همه</button></div><fieldset><legend>دسته‌بندی</legend>{Object.entries(categoryNames).map(([key,label])=><label className="check-label" key={key}><input type="checkbox" checked={filters.category===key} onChange={()=>onChange('category',filters.category===key?'':key)}/><span>{label}</span></label>)}</fieldset><fieldset><legend>سایز</legend><div className="filter-sizes">{['XS','S','M','L','XL','37','38','39','40','41','42','43','تک‌سایز'].map(size=><button key={size} aria-pressed={filters.size===size} className={filters.size===size?'selected':''} onClick={()=>onChange('size',filters.size===size?'':size)}>{size}</button>)}</div></fieldset><fieldset><legend>رنگ</legend><div className="filter-colors">{colors.map(color=><button aria-pressed={filters.color===color.value} key={color.value} className={filters.color===color.value?'selected':''} onClick={()=>onChange('color',filters.color===color.value?'':color.value)}><span style={{backgroundColor:color.hex}}/>{color.name}</button>)}</div></fieldset><fieldset><legend>محدوده قیمت</legend><label htmlFor="max-price">تا {formatPrice(filters.maxPrice)} تومان</label><input id="max-price" aria-label="حداکثر قیمت" type="range" min={500000} max={5500000} step={100000} value={filters.maxPrice} onChange={event=>onChange('maxPrice',Number(event.target.value))}/><div className="price-range-labels"><span>۵۰۰ هزار</span><span>۵٫۵ میلیون</span></div></fieldset><label className="check-label stock-filter"><input type="checkbox" checked={filters.available} onChange={event=>onChange('available',event.target.checked)}/>فقط کالاهای موجود</label></div>;}
-export function FilterDrawer({open,onClose,...props}:Parameters<typeof FilterSidebar>[0]&{open:boolean;onClose:()=>void}){return <Modal title="فیلتر محصولات" open={open} onClose={onClose} drawer><FilterSidebar {...props}/><button className="button button-primary w-full" onClick={onClose}>مشاهده نتایج</button></Modal>;}
-export function SortSelect({value,onChange}:{value:string;onChange:(value:string)=>void}){return <label className="sort-select">مرتب‌سازی:<select value={value} onChange={event=>onChange(event.target.value)}><option value="new">جدیدترین</option><option value="best">پرفروش‌ترین</option><option value="low">ارزان‌ترین</option><option value="high">گران‌ترین</option></select></label>;}
-export function CatalogSearch({value,onChange}:{value:string;onChange:(value:string)=>void}){return <div className="catalog-search"><Search size={18}/><input aria-label="جستجو در محصولات" placeholder="جستجو در محصولات…" value={value} onChange={event=>onChange(event.target.value)}/></div>;}
+export interface Filters {
+  category: string;
+  size: string;
+  color: string;
+  maxPrice: number;
+  available: boolean;
+  query: string;
+  sort: string;
+  isNew: boolean;
+  sale: boolean;
+  favorites: boolean;
+}
+export const defaultFilters: Filters = {
+  category: '',
+  size: '',
+  color: '',
+  maxPrice: 5500000,
+  available: false,
+  query: '',
+  sort: 'new',
+  isNew: false,
+  sale: false,
+  favorites: false,
+};
+export function FilterSidebar({
+  filters,
+  onChange,
+  clear,
+}: {
+  filters: Filters;
+  onChange: (key: keyof Filters, value: string | number | boolean) => void;
+  clear: () => void;
+}) {
+  const priceId = useId();
+  return (
+    <div className="filter-sidebar">
+      <div className="filter-title">
+        <h2>فیلترها</h2>
+        <button onClick={clear}>پاک کردن همه</button>
+      </div>
+      <fieldset>
+        <legend>دسته‌بندی</legend>
+        {Object.entries(categoryNames).map(([key, label]) => (
+          <label className="check-label" key={key}>
+            <input
+              type="checkbox"
+              checked={filters.category === key}
+              onChange={() => onChange('category', filters.category === key ? '' : key)}
+            />
+            <span>{label}</span>
+          </label>
+        ))}
+      </fieldset>
+      <fieldset>
+        <legend>سایز</legend>
+        <div className="filter-sizes">
+          {['XS', 'S', 'M', 'L', 'XL', '37', '38', '39', '40', '41', '42', '43', 'تک‌سایز'].map(
+            (size) => (
+              <button
+                key={size}
+                aria-pressed={filters.size === size}
+                className={filters.size === size ? 'selected' : ''}
+                onClick={() => onChange('size', filters.size === size ? '' : size)}
+              >
+                {size}
+              </button>
+            ),
+          )}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>رنگ</legend>
+        <div className="filter-colors">
+          {colors.map((color) => (
+            <button
+              aria-pressed={filters.color === color.value}
+              key={color.value}
+              className={filters.color === color.value ? 'selected' : ''}
+              onClick={() => onChange('color', filters.color === color.value ? '' : color.value)}
+            >
+              <span style={{ backgroundColor: color.hex }} />
+              {color.name}
+            </button>
+          ))}
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>محدوده قیمت</legend>
+        <label htmlFor={priceId}>تا {formatPrice(filters.maxPrice)} تومان</label>
+        <input
+          id={priceId}
+          aria-label="حداکثر قیمت"
+          type="range"
+          min={500000}
+          max={5500000}
+          step={100000}
+          value={filters.maxPrice}
+          onChange={(event) => onChange('maxPrice', Number(event.target.value))}
+        />
+        <div className="price-range-labels">
+          <span>۵۰۰ هزار</span>
+          <span>۵٫۵ میلیون</span>
+        </div>
+      </fieldset>
+      <label className="check-label stock-filter">
+        <input
+          type="checkbox"
+          checked={filters.available}
+          onChange={(event) => onChange('available', event.target.checked)}
+        />
+        فقط کالاهای موجود
+      </label>
+    </div>
+  );
+}
+export function FilterDrawer({
+  open,
+  onClose,
+  ...props
+}: Parameters<typeof FilterSidebar>[0] & { open: boolean; onClose: () => void }) {
+  return (
+    <Modal title="فیلتر محصولات" open={open} onClose={onClose} drawer>
+      <FilterSidebar {...props} />
+      <button className="button button-primary w-full" onClick={onClose}>
+        مشاهده نتایج
+      </button>
+    </Modal>
+  );
+}
+export function SortSelect({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <label className="sort-select">
+      مرتب‌سازی:
+      <select value={value} onChange={(event) => onChange(event.target.value)}>
+        <option value="new">جدیدترین</option>
+        <option value="best">پرفروش‌ترین</option>
+        <option value="low">ارزان‌ترین</option>
+        <option value="high">گران‌ترین</option>
+      </select>
+    </label>
+  );
+}
+export function CatalogSearch({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <div className="catalog-search">
+      <Search size={18} />
+      <input
+        aria-label="جستجو در محصولات"
+        placeholder="جستجو در محصولات…"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+      />
+    </div>
+  );
+}
