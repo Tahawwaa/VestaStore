@@ -1,10 +1,48 @@
-# رَوا — Persian fashion storefront
+# رَوا (Rava) — Persian Fashion Storefront
 
-A responsive, RTL-first React + TypeScript storefront built with Vite, Tailwind CSS, Lucide, Framer Motion, and React Router. All storefront copy is Persian and prices use Persian digits and تومان.
+A responsive, **RTL-first** e-commerce storefront for a minimal Persian fashion brand, built with **React 19 + TypeScript + Vite + Tailwind CSS 4**. All storefront copy is Persian, prices use Persian digits and تومان, and the entire UI is designed right-to-left from the ground up — not mirrored as an afterthought.
 
-## Run locally
+![Home — hero](docs/screenshots/desktop-home-hero.png)
 
-Use Node.js 22.12+ (developed with Node 24).
+## Features
+
+- **Editorial home page** — seasonal hero, category links, filterable new arrivals, best sellers, and newsletter preview.
+- **Product catalog** (`/products`) — URL-backed search plus category, size, color, price, stock, new-arrival, sale, and favorites filters; four sort modes; mobile filter drawer.
+- **Product detail** (`/products/:id`) — touch-friendly gallery, close-up and full-screen preview, size guide, variant validation, quantity selector, favorites, accordions, and related products.
+- **Cart drawer** — variant-aware quantities, free-shipping threshold, totals, `localStorage` persistence, and full keyboard accessibility.
+- **Checkout** (`/checkout`) — Persian/Arabic digit-aware form validation, delivery options, discount code `RAVA10`, order summary, and a local success confirmation.
+
+## Screenshots
+
+| Catalog with filters | Product detail |
+| --- | --- |
+| ![Products page](docs/screenshots/desktop-products.png) | ![Product detail](docs/screenshots/desktop-product.png) |
+
+| Cart drawer | Checkout |
+| --- | --- |
+| ![Cart drawer](docs/screenshots/desktop-cart-drawer.png) | ![Checkout](docs/screenshots/desktop-checkout.png) |
+
+<p>
+  <img src="docs/screenshots/mobile-home.png" alt="Mobile home" width="32%" />
+  <img src="docs/screenshots/mobile-products.png" alt="Mobile products" width="32%" />
+</p>
+
+## Tech Stack
+
+| Layer | Choice |
+| --- | --- |
+| Framework | React 19 + TypeScript (strict) |
+| Build | Vite 7 |
+| Styling | Tailwind CSS 4 |
+| Routing | React Router 7 (lazy-loaded secondary pages) |
+| Animation | Framer Motion |
+| Icons | Lucide |
+| Font | Vazirmatn (bundled locally) |
+| Tests | Vitest |
+
+## Getting Started
+
+Requires Node.js 22.12+ (developed with Node 24).
 
 ```sh
 npm install
@@ -21,26 +59,28 @@ npm test         # cart, filtering, shipping, and validation tests
 
 For deployment, serve `dist/` and rewrite non-asset requests to `index.html` so direct visits to nested routes work.
 
-## Pages and interactions
-
-- `/`: editorial home, category links, filterable arrivals, best sellers, and newsletter preview.
-- `/products`: URL-backed search, category, size, color, price, stock, new-arrival, sale, and favorites filters; four sort modes; mobile filter drawer.
-- `/products/:id`: touch gallery, close-up view, full-screen preview, size guide, variant validation, quantity, saved favorites, accordions, and related products.
-- `/checkout`: Persian/Arabic digit-aware validation, delivery choices, discount code `RAVA10`, order summary, and local success confirmation.
-- Cart: variant-aware quantities, free shipping threshold, removal, totals, local persistence, and keyboard-accessible drawer.
-
 ## Architecture
 
-`src/types` defines the catalog and cart contracts. `src/data/products.ts` is the typed catalog. `src/providers/CartProvider.tsx` owns cart and favorites state. Stored cart data is validated and resolved against current catalog prices on hydration. `src/utils` contains independently tested business rules. `src/components` contains reusable UI and feature components; `src/pages`, `src/layouts`, and `src/routes` compose them. Secondary pages are lazy loaded.
+```
+src/
+├── types/       # catalog and cart contracts
+├── data/        # typed product catalog
+├── providers/   # CartProvider: cart + favorites state
+├── utils/       # independently tested business rules
+├── components/  # reusable UI and feature components
+├── pages/       # route-level pages (secondary pages lazy loaded)
+├── layouts/
+└── routes/
+```
 
-Vazirmatn is bundled locally. All final photographs are project-local JPEGs in `public/images/`; no image-host or font-host request is required at runtime. The image provenance and generation prompt set are documented in `ASSETS.md`. Gallery close-ups use a CSS crop of the original photo rather than depicting an inconsistent second product.
-
-## Preview boundaries
-
-This is a complete frontend preview. Checkout, newsletter, ratings, inventory, delivery promises, and order numbers are demonstration data. No payment is collected, no email is sent, and no physical order is created. Customer form data remains in component memory. Only cart selections and favorites are stored in `localStorage`.
-
-Before connecting a real storefront, replace catalog data and imagery with actual inventory, verify product dimensions and size guides, and implement server-authoritative pricing, stock validation, order persistence, newsletter delivery, and payment integration.
+Stored cart data is validated and re-resolved against current catalog prices on hydration. All photographs are project-local JPEGs in `public/images/` and Vazirmatn is bundled, so no third-party image or font host is contacted at runtime. Image provenance and the generation prompt set are documented in `ASSETS.md`.
 
 ## Accessibility
 
-Semantic RTL markup, visible focus states, labeled inputs and icons, modal focus trapping and restoration, Escape dismissal, background inertness, live cart feedback, reduced-motion support, and responsive controls are included. Automated business-rule tests complement interactive desktop/mobile browser checks; they are not a formal accessibility certification.
+Semantic RTL markup, visible focus states, labeled inputs and icons, modal focus trapping and restoration, Escape dismissal, background inertness, live cart feedback, reduced-motion support, and responsive controls. Automated business-rule tests complement interactive desktop/mobile browser checks; they are not a formal accessibility certification.
+
+## Preview Boundaries
+
+This is a complete **frontend preview**. Checkout, newsletter, ratings, inventory, delivery promises, and order numbers are demonstration data — no payment is collected, no email is sent, and no physical order is created. Customer form data stays in component memory; only cart selections and favorites are stored in `localStorage`.
+
+Before connecting a real storefront: replace catalog data and imagery with actual inventory, verify product dimensions and size guides, and implement server-authoritative pricing, stock validation, order persistence, newsletter delivery, and payment integration.
