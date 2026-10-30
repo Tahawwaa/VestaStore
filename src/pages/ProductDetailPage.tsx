@@ -40,6 +40,12 @@ function ProductDetail({ product }: { product: Product }) {
   const [added, setAdded] = useState(false);
   const { addItem, favorites, toggleFavorite, setOpen } = useCart();
   const favorite = favorites.includes(product.id);
+  const galleryColor = product.imagesByColor ? color ?? product.colors[0] : undefined;
+  const galleryImages =
+    (galleryColor && product.imagesByColor?.[galleryColor.value]) ?? product.images;
+  const galleryTitle = galleryColor
+    ? `${product.title}؛ رنگ ${galleryColor.name}`
+    : product.title;
   function add() {
     if (!size || !color) {
       setError('لطفاً سایز و رنگ دلخواه خود را انتخاب کنید.');
@@ -60,7 +66,7 @@ function ProductDetail({ product }: { product: Product }) {
         ]}
       />
       <div className="detail-layout">
-        <ProductGallery images={product.images} title={product.title} />
+        <ProductGallery key={galleryImages[0]} images={galleryImages} title={galleryTitle} />
         <div className="product-details">
           <div className="detail-kicker">
             <span>{categoryNames[product.category]} / مجموعه رَوا</span>

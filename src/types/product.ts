@@ -15,6 +15,7 @@ export interface Product {
   price: number;
   compareAtPrice?: number;
   images: string[];
+  imagesByColor?: Record<string, string[]>;
   sizes: ProductSize[];
   colors: ProductColor[];
   rating: number;

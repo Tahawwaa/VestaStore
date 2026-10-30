@@ -23,7 +23,12 @@ export const products: Product[] = [
     category: 'women',
     price: 2490000,
     compareAtPrice: 2980000,
-    images: [image('blazer'), image('blazer-detail')],
+    images: ['/images/linen-blazer-cream.jpg', '/images/linen-blazer-cream.jpg'],
+    imagesByColor: {
+      cream: ['/images/linen-blazer-cream.jpg', '/images/linen-blazer-cream.jpg'],
+      black: ['/images/linen-blazer-black.jpg', '/images/linen-blazer-black.jpg'],
+      brown: ['/images/linen-blazer-brown.jpg', '/images/linen-blazer-brown.jpg'],
+    },
     sizes: ['S', 'M', 'L', 'XL'],
     colors: [colors[0], colors[1], colors[2]],
     rating: 4.8,
